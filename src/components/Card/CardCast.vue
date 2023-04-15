@@ -11,6 +11,18 @@
   </div>
 </template>
 
-<script setup></script>
+<script lang="ts">
+import { defineComponent } from 'vue'
 
-<style lang="scss" scoped></style>
+export default defineComponent({
+  setup () {
+    
+
+    return {}
+  }
+})
+</script>
+
+<style scoped>
+
+</style>
