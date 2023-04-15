@@ -100,8 +100,8 @@ export default defineComponent({
     return {
       scrollHeight: 0,
       isOpenMenu: false,
-      isHome: document.location.pathname.split('/')[1] === `` ? true : false,
-      language: store.state.language
+      isHome: document.location.pathname.split('/')[1] === `` ? true : false
+      // language: store.state.language
     }
   },
   mounted() {
