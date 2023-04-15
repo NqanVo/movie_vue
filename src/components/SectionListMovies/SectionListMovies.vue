@@ -21,7 +21,7 @@
     </div> -->
     <div>
       <swiper
-      v-if="listData.length > 0"
+        v-if="listData.length > 0"
         :slides-per-view="4"
         :slides-per-group="2"
         :space-between="50"
@@ -29,23 +29,23 @@
           300: {
             slidesPerView: 2,
             slidesPerGroup: 1,
-            spaceBetween:30
+            spaceBetween: 30
           },
           768: {
             slidesPerView: 3,
             slidesPerGroup: 1,
-            spaceBetween:40
+            spaceBetween: 40
           },
           1024: {
             slidesPerView: 4,
             slidesPerGroup: 2,
-            spaceBetween:50
+            spaceBetween: 50
           }
         }"
         :navigation="true"
         :modules="modules"
       >
-        <swiper-slide v-for="(movie,i) in listData.slice(0,8)" :key="i" class="my-auto">
+        <swiper-slide v-for="(movie, i) in listData.slice(0, 8)" :key="i" class="my-auto">
           <CardMovie v-if="i < 7" :movie="movie" />
           <RouterLink :to="`/`" v-else class="flex items-center justify-center">
             <button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-bold uppercase text-white">
@@ -54,8 +54,8 @@
           </RouterLink>
         </swiper-slide>
       </swiper>
-      <Loading v-else/>
-      
+      <!-- <Loading v-else /> -->
+      <SectionListSkeleton v-else />
     </div>
   </section>
 </template>
@@ -69,6 +69,7 @@ import 'swiper/css/navigation'
 import { defineComponent } from 'vue'
 import { RouterLink } from 'vue-router'
 import CardMovie from '@/components/Card/CardMovie.vue'
+import SectionListSkeleton from '../SectionListSkeleton/SectionListSkeleton.vue'
 import type { GetMoviesResponse } from '@/types/GetMovies.interface'
 import Loading from '../Loading/Loading.vue'
 export default defineComponent({
@@ -76,8 +77,9 @@ export default defineComponent({
     CardMovie,
     Swiper,
     SwiperSlide,
-    Loading
-},
+    Loading,
+    SectionListSkeleton
+  },
   props: {
     listData: {
       type: Array as () => GetMoviesResponse['results'],
