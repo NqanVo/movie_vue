@@ -26,7 +26,7 @@
       <swiper-slide v-for="i in 4" :key="i" class="my-auto">
         <div
           role="status"
-          class="max-w-sm animate-pulse rounded border border-gray-200 p-4 shadow dark:border-gray-700 md:p-6"
+          class="max-w-sm animate-pulse rounded border border-gray-200 p-4 shadow dark:border-gray-700 md:p-6 overflow-hidden"
         >
           <div class="mb-4 flex h-48 items-center justify-center rounded bg-gray-300 dark:bg-gray-700">
             <svg
@@ -41,11 +41,10 @@
               />
             </svg>
           </div>
-          <div class="mb-4 h-2.5 w-48 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+          <div class="mb-2.5 h-3 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           <div class="mb-2.5 h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
-          <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           <div class="h-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           <span class="sr-only">Loading...</span>
         </div>

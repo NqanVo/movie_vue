@@ -1,6 +1,6 @@
 <template>
   <RouterLink :to="path || `/`">
-    <button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-bold uppercase">
+    <button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-bold uppercase text-white">
       <span v-html="icon"></span>
       {{ title }}
     </button>
