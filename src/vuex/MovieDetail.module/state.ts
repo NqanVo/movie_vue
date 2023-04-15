@@ -2,12 +2,12 @@ import type { MovideDetail } from '@/types/MovieDetail.interface'
 
 export interface RootState {
   isLoading: boolean
-  data: MovideDetail | {}
+  data: MovideDetail
 }
 
 export default (): RootState => {
   return {
     isLoading: false,
-    data: {}
+    data: {} as MovideDetail
   }
 }
