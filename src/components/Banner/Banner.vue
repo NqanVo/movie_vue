@@ -2,14 +2,10 @@
   <swiper
     v-if="Object.keys(listMoviesPopular).length > 0"
     :direction="'vertical'"
-    :pagination="{
-      clickable: true
-    }"
-    :autoplay="{
-      delay: 2,
-      disableOnInteraction: false
-    }"
+    :pagination="paginationSwiper"
+    :autoplay="autoplaySwiper"
     :modules="modules"
+    :loop="true"
     class="relative mx-auto h-[90vh] w-full max-w-[1440px] md:h-[500px] xl:h-[600px]"
   >
     <!-- <swiper-slide v-for="i in 8" :key="i"> -->
@@ -68,9 +64,10 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Pagination } from 'swiper'
+import { Pagination, Autoplay } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/pagination'
+
 import Button from '@/components/Button/Button.vue'
 import type { GetMoviesResponse } from '@/types/GetMovies.interface'
 
@@ -84,7 +81,7 @@ export default defineComponent({
   },
   setup() {
     return {
-      modules: [Pagination]
+      modules: [Pagination, Autoplay]
     }
   },
   methods: {
@@ -108,7 +105,14 @@ export default defineComponent({
   },
   data() {
     return {
-      listMoviesPopular: {} as GetMoviesResponse
+      listMoviesPopular: {} as GetMoviesResponse,
+      paginationSwiper: {
+        clickable: true
+      },
+      autoplaySwiper: {
+        delay: 3000,
+        disableOnInteraction: false
+      }
     }
   }
 })

@@ -1,6 +1,8 @@
 <template>
-  <Header />
-  <section class="container mx-auto flex min-h-fit flex-col gap-11 bg-gray-100 px-4 xl:max-w-screen-xl 2xl:px-0">
+  <Header></Header>
+  <section
+    class="container mx-auto flex min-h-fit flex-col gap-11 bg-gray-100 px-1 md:px-2 xl:max-w-screen-xl xl:px-4 2xl:px-0"
+  >
     <div v-if="!isLoading" class="">
       <div
         v-if="dataMovie && Object.keys(dataMovie).length > 0"
@@ -47,11 +49,11 @@
             <div>{{ dataMovie.runtime }} minute</div>
           </div>
           <h4>Casts</h4>
-          <div v-if="dataMovie.casts" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2">
+          <div v-if="dataMovie.casts" class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-4">
             <div
               v-for="cast in dataMovie.casts.cast.slice(0, numberCasts)"
               :key="cast.cast_id"
-              class="flex w-full items-center gap-2 rounded-lg bg-slate-200 p-2 transform hover:scale-105 transition-all"
+              class="flex w-full transform items-center gap-2 rounded-lg bg-slate-200 p-2 transition-all hover:scale-105"
             >
               <img
                 :src="IMAGE_URL + cast.profile_path"
@@ -64,51 +66,34 @@
                 <p>({{ cast.character }})</p>
               </div>
             </div>
-            <p class="text-right col-span-1 md:col-span-2 xl:col-span-4 cursor-pointer underline" @click="viewAllCasts = !viewAllCasts">All casts</p>
+            <p
+              class="col-span-1 cursor-pointer text-right underline md:col-span-2 xl:col-span-4"
+              @click="viewAllCasts = !viewAllCasts"
+            >
+              All casts
+            </p>
           </div>
         </div>
-        <!-- <div class="md:col-span-3">
-          <div class="">
-            <h3>Preview</h3>
-            <p>
-              {{ dataMovie.overview }}
-            </p>
-            <img
-              :src="`https://image.tmdb.org/t/p/original/` + dataMovie.poster_path"
-              alt=""
-              class="mx-auto h-auto w-full md:max-w-sm"
-            />
-            <p>
-              Production Companies:
-              <span v-for="companies in dataMovie.production_companies" :key="companies.id"
-                >{{ companies.name }}.
-              </span>
-            </p>
-            <div v-if="dataMovie.casts" class="grid grid-cols-2 gap-4 md:grid-cols-4 xl:grid-cols-6">
-              <div v-for="cast in dataMovie.casts.cast" :key="cast.cast_id" class="flex flex-col">
-                <img
-                  :src="IMAGE_URL + cast.profile_path"
-                  :alt="cast.name"
-                  @error="(event)=> (event.target as HTMLImageElement).src = `https://cdn.freebiesupply.com/logos/large/2x/tv-movie-logo-svg-vector.svg`"
-                  class="h-56 w-full object-cover"
-                />
-                <h4>{{ cast.name }}</h4>
-                <p>Character: {{ cast.character }}</p>
+        <div class="md:col-span-3">
+          <div class="w-full">
+            <h3>Trailer</h3>
+            <div class="mx-auto w-full md:w-1/2">
+              <div
+                v-if="dataMovie.videos"
+                v-for="video in dataMovie.videos.results.slice(0, 1)"
+                :key="video.key"
+                class="relative mx-auto h-0 pb-[56.25%]"
+              >
+                <iframe
+                  class="absolute h-full w-full rounded-lg shadow-lg"
+                  :src="`https://www.youtube.com/embed/${video.key}`"
+                  frameborder="0"
+                  allowfullscreen
+                ></iframe>
               </div>
             </div>
           </div>
-          <div class="">
-            <h3>Trailer</h3>
-            <div class="relative mx-auto h-0 pb-[56.25%]">
-              <iframe
-                class="absolute h-full w-full"
-                src="https://www.youtube.com/embed/oEOehmMNuHs"
-                frameborder="0"
-                allowfullscreen
-              ></iframe>
-            </div>
-          </div>
-        </div> -->
+        </div>
       </div>
       <div v-else class="grid grid-cols-1 gap-10 rounded-lg p-4 text-center">
         <h4>Something went wrong with this movie, please try again or change the language</h4>
@@ -118,7 +103,7 @@
       <LoadingVue />
     </div>
   </section>
-  <Footer />
+  <Footer></Footer>
 </template>
 
 <script lang="ts">
@@ -131,6 +116,8 @@ import { IMAGE_URL } from '@/assets/key'
 import LoadingVue from '@/components/Loading/Loading.vue'
 import Button from '@/components/Button/Button.vue'
 import { mapActions, mapGetters } from 'vuex'
+import { setSEO } from '@/seo/meta'
+import type { MovideDetail } from '@/types/MovieDetail.interface'
 
 export default defineComponent({
   components: {
@@ -146,34 +133,58 @@ export default defineComponent({
     getCastMovie() {
       return getCastMovie(this.idMovie)
     },
+    async setMovieTitle() {
+      await this.fecthMovieDetail({ idMovie: this.idMovie, language: this.getLanguage })
+      this.setSEO(
+        `${this.dataMovie.title} - TV MOVIE`,
+        this.dataMovie.overview,
+        this.IMAGE_URL + this.dataMovie.poster_path
+      )
+    },
+    setSEO,
     ...mapActions(['fecthMovieDetail'])
   },
   async mounted() {
     await this.fecthMovieDetail({ idMovie: this.idMovie, language: this.getLanguage })
+    this.setMovieTitle()
+  },
+  beforeRouteUpdate(to, from, next) {
+    if (to.params.id !== from.params.id) {
+      document.title = this.movieTitle
+      this.idMovie = to.params.id as string
+      this.fecthMovieDetail({ idMovie: this.idMovie, language: this.getLanguage }).then(() => {
+        next()
+      })
+    } else {
+      next()
+    }
   },
   watch: {
-    // dataMovie: function (newVal, oldVal) {
-    //   console.log(JSON.parse(JSON.stringify(oldVal)))
-    //   console.log(JSON.parse(JSON.stringify(newVal)))
-    // },
+    dataMovie: function (n, o) {
+      console.log(JSON.parse(JSON.stringify(n)))
+    },
     getLanguage: async function () {
       await this.fecthMovieDetail({ idMovie: this.idMovie, language: this.getLanguage })
     },
-    viewAllCasts: function (){
-      if(this.viewAllCasts)
-        this.numberCasts = this.dataMovie.casts.cast.length
-      else
-        this.numberCasts = 4 
+    idMovie: function () {
+      this.setMovieTitle()
+    },
+    viewAllCasts: function () {
+      if (this.viewAllCasts) this.numberCasts = this.dataMovie.casts.cast.length
+      else this.numberCasts = 4
     }
   },
   computed: {
+    movieTitle(): string {
+      return `${this.dataMovie.title} - TV MOVIE`
+    },
     ...mapGetters(['getLanguage', 'dataMovie', 'isLoading'])
   },
   data() {
     return {
       idMovie: this.$route.params.id as string,
       IMAGE_URL,
-      viewAllCasts : false,
+      viewAllCasts: false,
       numberCasts: 4
     }
   }
