@@ -86,7 +86,6 @@
 import { defineComponent } from 'vue'
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import InputSearch from '@/components/InputSearch/InputSearch.vue'
-import store from '@/vuex/store'
 
 export default defineComponent({
   components: {
@@ -101,7 +100,6 @@ export default defineComponent({
       scrollHeight: 0,
       isOpenMenu: false,
       isHome: document.location.pathname.split('/')[1] === `` ? true : false
-      // language: store.state.language
     }
   },
   mounted() {

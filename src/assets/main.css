@@ -25,3 +25,13 @@ h4 {
 .swiper-button-prev {
   @apply !text-white;
 }
+
+input[type='search']::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 1em;
+  width: 1em;
+  background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/OOjs_UI_icon_close-ltr-destructive.svg/768px-OOjs_UI_icon_close-ltr-destructive.svg.png')
+    no-repeat 50% 50%;
+  background-size: contain;
+  cursor: pointer;
+}

@@ -29,7 +29,7 @@ import Button from '@/components/Button/Button.vue'
 import { getMoviesPopular, getMoviesTopRated } from '@/services/getMovies'
 import type { GetMoviesResponse } from '@/types/GetMovies.interface'
 import { mapGetters } from 'vuex'
-document.title = 'TV MOVIE'
+import { setSEO } from '@/seo/meta'
 
 export default defineComponent({
   components: {
@@ -46,9 +46,12 @@ export default defineComponent({
     },
     getMoviesTopRated() {
       return getMoviesTopRated(1, this.getLanguage.code)
-    }
+    },
+    setSEO
   },
   async mounted() {
+    this.setSEO()
+
     setTimeout(async () => {
       this.listMoviesPopular = await this.getMoviesPopular()
     }, 1500)

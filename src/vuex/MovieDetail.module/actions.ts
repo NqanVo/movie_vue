@@ -1,4 +1,5 @@
 import { getCastMovie, getDetailMovie } from '@/services/getMovies'
+import type { MovideDetail } from '@/types/MovieDetail.interface'
 import type { Commit } from 'vuex'
 
 export default {
@@ -8,7 +9,7 @@ export default {
   ) {
     try {
       commit('setMovieDetailStart')
-      let data = await getDetailMovie(payload.idMovie, payload.language.code)
+      let data: MovideDetail = await getDetailMovie(payload.idMovie, payload.language.code)
       data.casts = await getCastMovie(payload.idMovie)
       commit('setMovieDetailSuccess', data)
     } catch (error) {
