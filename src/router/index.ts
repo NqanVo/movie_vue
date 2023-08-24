@@ -3,7 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import MovieView from '@/views/MovieView.vue'
 import MoviesView from '@/views/MoviesView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
-
+import SignInView from '@/views/SignInView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -12,11 +12,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    // {
-    //   path: '/movies/:type',
-    //   name: 'movies',
-    //   component: MoviesView
-    // },
+    {
+      path:'/sign-in',
+      name:'SignIn',
+      component: SignInView
+    },
     {
       path: '/movies/popular',
       name: 'moviesPopular',
@@ -38,18 +38,13 @@ const router = createRouter({
       component: MovieView
     },
     {
-      path: '/not-found',
+      path: '/:pathMatch(.*)*',
       name: 'not-found',
       component: NotFoundView
     }
   ]
 })
 
-// middleware router
-router.beforeEach((to, from, next) => {
-  const isPathMatched = router.resolve(to.path).matched.length
-  if (isPathMatched) next()
-  else next({ name: 'not-found' })
-})
+
 
 export default router

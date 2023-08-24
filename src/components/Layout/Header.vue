@@ -16,6 +16,7 @@
           alt=""
         />
       </RouterLink>
+
       <div
         :class="`col-span-3 transform transition-all duration-200 md:col-span-2 md:block md:translate-x-0  md:opacity-100 xl:col-span-1 ${
           isOpenMenu ? `block translate-x-0 opacity-100` : `hidden -translate-x-full opacity-0`
@@ -69,6 +70,7 @@
           </svg>
         </button>
       </div>
+
     </nav>
   </header>
   <div :class="`h-auto bg-transparent py-4 ${isHome ? `hidden` : `block`}`">
@@ -86,6 +88,8 @@
 import { defineComponent } from 'vue'
 import { mapGetters, mapMutations, mapState } from 'vuex'
 import InputSearch from '@/components/InputSearch/InputSearch.vue'
+import { useOther } from '@/pinia/other.store'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   components: {
@@ -93,7 +97,14 @@ export default defineComponent({
   },
 
   setup() {
-    // console.log(document.location.pathname.split("/")[1]);
+    const storeOther = useOther()
+    const {setLanguage} = storeOther
+    const {getterLanguage:getLanguage} = storeToRefs(storeOther)
+
+    return {
+      setLanguage,
+      getLanguage
+    }
   },
   data() {
     return {
@@ -109,10 +120,10 @@ export default defineComponent({
     handleScroll() {
       this.scrollHeight = document.documentElement.scrollTop
     },
-    ...mapMutations(['setLanguage'])
+    // ...mapMutations(['setLanguage'])
   },
   computed: {
-    ...mapGetters(['getLanguage'])
+    // ...mapGetters(['getLanguage'])
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll)

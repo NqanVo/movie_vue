@@ -11,3 +11,4 @@ export default (): RootState => {
     data: {} as MovideDetail
   }
 }
+
