@@ -47,11 +47,11 @@
         <RouterLink
           v-for="result in resultsSearch.results.slice(0, 7)"
           :key="result.id"
-          :to="{ name: 'movie', params: { id: result.id } }"
+          :to="`/movie/${result.id}`"
           class="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm capitalize hover:bg-gray-500/30 xl:text-base"
           @click="
             () => {
-              stringSearch = result.title
+              stringSearch = result.title as string
               openResultsSearch = false
             }
           "

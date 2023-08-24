@@ -47,7 +47,7 @@
       >
         <swiper-slide v-for="(movie, i) in listData.slice(0, 8)" :key="i" class="my-auto">
           <CardMovie v-if="i < 7" :movie="movie" />
-          <RouterLink :to="`/`" v-else class="flex items-center justify-center">
+          <RouterLink :to="viewMore || `/`" v-else class="flex items-center justify-center">
             <button class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 font-bold uppercase text-white">
               See more
             </button>

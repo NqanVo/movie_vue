@@ -4,13 +4,13 @@
   <SectionListMovies
     v-if="listMoviesPopular"
     :listTitle="`Popular Movie`"
-    :viewMore="`/popular-movie`"
+    :viewMore="`/movies/popular`"
     :listData="listMoviesPopular.results || []"
   />
   <SectionListMovies
     v-if="listMoviesTopRated"
     :listTitle="`Top Rated`"
-    :viewMore="`/top-rated`"
+    :viewMore="`/movies/top_rated`"
     :listData="listMoviesTopRated.results || []"
   />
 
@@ -30,6 +30,8 @@ import { getMoviesPopular, getMoviesTopRated } from '@/services/getMovies'
 import type { GetMoviesResponse } from '@/types/GetMovies.interface'
 import { mapGetters } from 'vuex'
 import { setSEO } from '@/seo/meta'
+import { useOther } from '@/pinia/other.store'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   components: {
@@ -39,6 +41,11 @@ export default defineComponent({
     Banner,
     Footer,
     Button
+  },
+  setup(){
+    const storeOther = useOther()
+    const {getterLanguage:getLanguage} = storeToRefs(storeOther)
+    return{getLanguage}
   },
   methods: {
     getMoviesPopular() {
@@ -66,7 +73,7 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters(['getLanguage'])
+    // ...mapGetters(['getLanguage'])
   },
   data() {
     return {

@@ -38,7 +38,7 @@ export const getDetailMovie = async (idMovie: number | string, language: string 
     return res.data
   } catch (error) {
     console.log(error)
-    return null
+    return undefined
   }
 }
 
@@ -47,6 +47,6 @@ export const getCastMovie = async (idMovie: string | number) => {
     const res = await axios.get(BASE_URL + `movie/${idMovie}/casts?api_key=${API_KEY}`, { timeout: timeout })
     return res.data
   } catch (error) {
-    return null
+    return undefined
   }
 }

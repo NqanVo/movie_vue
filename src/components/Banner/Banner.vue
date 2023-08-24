@@ -28,7 +28,7 @@
               <p>{{ movie.vote_average }} / 10</p>
             </div>
             <p class="text-sm font-medium">
-              {{ movie.overview }}
+              {{ movie.overview.length > 150 ? movie.overview.substring(0,150) + "..." : movie.overview}}
             </p>
             <Button
               :path="`/movie/${movie.id}`"
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { Pagination, Autoplay } from 'swiper'
 import 'swiper/css'
@@ -73,6 +73,8 @@ import type { GetMoviesResponse } from '@/types/GetMovies.interface'
 
 import { getMoviesPopular } from '@/services/getMovies'
 import { mapGetters } from 'vuex'
+import { useOther } from '@/pinia/other.store'
+import { storeToRefs } from 'pinia'
 export default defineComponent({
   components: {
     Button,
@@ -80,7 +82,10 @@ export default defineComponent({
     SwiperSlide
   },
   setup() {
-    return {
+    const storeOther = useOther()
+    const {getterLanguage:getLanguage} = storeToRefs(storeOther)
+  
+    return {getLanguage,
       modules: [Pagination, Autoplay]
     }
   },
@@ -101,7 +106,7 @@ export default defineComponent({
     }
   },
   computed: {
-    ...mapGetters(['getLanguage'])
+    // ...mapGetters(['getLanguage'])
   },
   data() {
     return {
